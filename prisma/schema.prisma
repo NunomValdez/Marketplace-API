@@ -1,0 +1,22 @@
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//definimos aqui as nossas tabelas - model (sempre q se cria uma tabela, temos de definir um model )
+//Documentation => Specifies your database connection and contains the database schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id           String @id @unique @default(uuid())
+  name         String
+  warehouse_id String
+  quantity     Int
+
+  @@map("products")
+}
