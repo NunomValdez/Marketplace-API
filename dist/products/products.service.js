@@ -17,10 +17,33 @@ let ProductsService = class ProductsService {
         this.prisma = prisma;
     }
     async create(data) {
-        const product = await this.prisma.product.create({
-            data,
-        });
+        const product = await this.prisma.product.create({ data });
         return product;
+    }
+    async findAll() {
+        return this.prisma.product.findMany();
+    }
+    async update(id, data) {
+        const productExists = await this.prisma.product.findUnique({
+            where: { id }
+        });
+        if (!productExists) {
+            throw new Error('This product do not exist');
+        }
+        return await this.prisma.product.update({
+            data, where: { id }
+        });
+    }
+    async delete(id) {
+        const productExists = await this.prisma.product.findUnique({
+            where: { id }
+        });
+        if (!productExists) {
+            throw new Error('This product do not exist');
+        }
+        return await this.prisma.product.delete({
+            where: { id }
+        });
     }
 };
 ProductsService = __decorate([
