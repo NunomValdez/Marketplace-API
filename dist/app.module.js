@@ -19,13 +19,14 @@ const warehouse_controller_1 = require("./warehouse/warehouse.controller");
 const shipment_controller_1 = require("./shipment/shipment.controller");
 const order_service_1 = require("./order/order.service");
 const shipment_service_1 = require("./shipment/shipment.service");
+const PrismaService_1 = require("./database/PrismaService");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [products_module_1.ProductsModule, shipment_module_1.ShipmentModule, warehouse_module_1.WarehouseModule, order_module_1.OrderModule],
         controllers: [app_controller_1.AppController, order_controller_1.OrderController, shipment_controller_1.ShipmentController, warehouse_controller_1.WarehouseController],
-        providers: [app_service_1.AppService, shipment_service_1.ShipmentService, order_service_1.OrderService],
+        providers: [app_service_1.AppService, shipment_service_1.ShipmentService, order_service_1.OrderService, PrismaService_1.PrismaService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

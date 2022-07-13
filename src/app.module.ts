@@ -10,11 +10,12 @@ import { WarehouseController } from './warehouse/warehouse.controller';
 import { ShipmentController } from './shipment/shipment.controller';
 import { OrderService } from './order/order.service';
 import { ShipmentService } from './shipment/shipment.service';
+import { PrismaService } from './database/PrismaService';
 
 @Module({
   imports: [ProductsModule, ShipmentModule, WarehouseModule, OrderModule],
   controllers: [AppController, OrderController, ShipmentController, WarehouseController],
-  providers: [AppService, ShipmentService, OrderService],
+  providers: [AppService, ShipmentService, OrderService, PrismaService],
 })
 
 
