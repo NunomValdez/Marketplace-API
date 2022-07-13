@@ -22,6 +22,15 @@ let OrderController = class OrderController {
     async create(data) {
         return this.orderService.create(data);
     }
+    async findAll() {
+        return this.orderService.findAll();
+    }
+    async update(id, data) {
+        return this.orderService.update(id, data);
+    }
+    async delete(id) {
+        return this.orderService.delete(id);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -30,6 +39,27 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "delete", null);
 OrderController = __decorate([
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [order_service_1.OrderService])
