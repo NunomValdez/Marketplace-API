@@ -1,61 +1,42 @@
-import { Injectable, Param } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
+import { getPrismaClient } from '@prisma/client/runtime';
+import { throwError } from 'rxjs';
 import { PrismaService } from 'src/database/PrismaService';
-import { ProductDTO } from './product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
 
-    constructor( private prisma: PrismaService){}
+  constructor( private prisma: PrismaService){}
 
-// Creating a new Product 
-    async create(data: ProductDTO ) {
-        // const productExists = await this.prisma.product.findFirst({
-        //     where: {
-        //         id : data.id
-        //     }
-        // })
+ async create( data: CreateProductDto ) {
+  return await this.prisma.product.create({ data })
+  }
 
-        // se o produto nao existir, retorna um erro,
-        // if(productExists){
-        //     throw new Error('product already exists');
-        // }
-        //se existir, guarda o produto na BD
-       const product = await this.prisma.product.create({ data }) 
-        return product
-    }
-// Finding all products 
-    async findAll() {
-        return this.prisma.product.findMany();
-    }
+  async findAll() {
+   return await this.prisma.product.findMany()
+  }
 
-// Updating one product 
-    async update(id: string, data: ProductDTO) {
-        const productExists = await this.prisma.product.findUnique({
-            where: { id }
-        });
-    //if product don't exists, throw an error
-        if(!productExists){ 
-            throw new Error('This product do not exist');
-        }
-    // if the product exists, then update it:
-      return  await this.prisma.product.update({
-            data, where: { id }
-        })
-    }
+  async findOne(id: string) {
+    return await  this.prisma.product.findFirst({ where: {id} })
+  }
 
-    async delete(id: string) {
-        const productExists = await this.prisma.product.findUnique({
-            where: { id }
-        });
-    //if product don't exists, throw an error
-        if(!productExists){ 
-            throw new Error('This product do not exist');
-        }
-    // if the product exists, then update it:
-      return  await this.prisma.product.delete({
-            where: { id }
-        })
-    }
+  async update(id: string, data: UpdateProductDto) {
 
+   const productExists = await this.prisma.product.findUnique({ where: {id,}})
+      if(!productExists){
+        throw new Error('Product does not exists in DB')
+      }
+      
+      return await this.prisma.product.update({
+        data,
+        where: {id,}
+      })
+
+  }
+
+  async remove(id: string) {
+    return this.prisma.product.findFirst({where: {id}})
+  }
 }

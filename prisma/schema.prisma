@@ -20,3 +20,29 @@ model Product {
 
   @@map("products")
 }
+
+model Warehouse {
+  id       String @id @unique @default(uuid())
+  location String
+  address  String
+
+  @@map("warehouse")
+}
+
+model Order {
+  product_id   String @id @unique @default(uuid())
+  user_id      String
+  shipment_id  String
+  order_number String
+
+  @@map("order")
+}
+
+model Shipment {
+  id           String @id @unique @default(uuid())
+  from_address String
+  to_address   String
+  order_id     String
+  user_id      String
+  product_id   String
+}
