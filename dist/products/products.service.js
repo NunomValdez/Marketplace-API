@@ -26,17 +26,19 @@ let ProductsService = class ProductsService {
         return await this.prisma.product.findFirst({ where: { id } });
     }
     async update(id, data) {
-        const productExists = await this.prisma.product.findUnique({ where: { id, } });
+        const productExists = await this.prisma.product.findUnique({
+            where: { id },
+        });
         if (!productExists) {
-            throw new Error('Product does not exists in DB');
+            throw new Error("Product does not exists in DB");
         }
         return await this.prisma.product.update({
             data,
-            where: { id, }
+            where: { id },
         });
     }
     async remove(id) {
-        return this.prisma.product.findFirst({ where: { id } });
+        return this.prisma.product.delete({ where: { id } });
     }
 };
 ProductsService = __decorate([

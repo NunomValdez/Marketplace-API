@@ -28,12 +28,12 @@ let OrdersService = class OrdersService {
     async update(id, data) {
         const orderExists = await this.prisma.order.findUnique({ where: { id } });
         if (!orderExists) {
-            throw new Error('This order does not exists');
+            throw new Error("This order does not exists");
         }
         return this.prisma.order.update({ data, where: { id } });
     }
     async remove(id) {
-        return `This action removes a #${id} order`;
+        return this.prisma.order.delete({ where: { id } });
     }
 };
 OrdersService = __decorate([

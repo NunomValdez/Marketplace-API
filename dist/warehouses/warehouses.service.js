@@ -28,12 +28,12 @@ let WarehousesService = class WarehousesService {
     async update(id, data) {
         const warehouseExists = await this.prisma.warehouse.findOne({ id });
         if (!warehouseExists) {
-            throw new Error('Warehouse do not work with us, and for that does not exists no our database');
+            throw new Error("Warehouse do not work with us, and for that does not exists no our database");
         }
         return this.prisma.warehouse.update({ data, where: { id } });
     }
     async remove(id) {
-        return this.prisma.warehouse.findOne({ where: { id } });
+        return this.prisma.warehouse.delete({ where: { id } });
     }
 };
 WarehousesService = __decorate([

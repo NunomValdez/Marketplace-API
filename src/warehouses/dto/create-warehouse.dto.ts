@@ -1,5 +1,5 @@
 export class CreateWarehouseDto {
-    id?        : string
-    location   : string
-    address    : string
+  id?: string;
+  location: string;
+  address: string;
 }

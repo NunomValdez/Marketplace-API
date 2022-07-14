@@ -16,7 +16,7 @@ let WarehousesModule = class WarehousesModule {
 WarehousesModule = __decorate([
     (0, common_1.Module)({
         controllers: [warehouses_controller_1.WarehousesController],
-        providers: [warehouses_service_1.WarehousesService, PrismaService_1.PrismaService]
+        providers: [warehouses_service_1.WarehousesService, PrismaService_1.PrismaService],
     })
 ], WarehousesModule);
 exports.WarehousesModule = WarehousesModule;

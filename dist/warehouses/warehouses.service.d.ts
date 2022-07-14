@@ -1,6 +1,6 @@
-import { PrismaService } from 'src/database/PrismaService';
-import { CreateWarehouseDto } from './dto/create-warehouse.dto';
-import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
+import { PrismaService } from "src/database/PrismaService";
+import { CreateWarehouseDto } from "./dto/create-warehouse.dto";
+import { UpdateWarehouseDto } from "./dto/update-warehouse.dto";
 export declare class WarehousesService {
     private prisma;
     constructor(prisma: PrismaService);

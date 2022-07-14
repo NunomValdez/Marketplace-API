@@ -28,12 +28,12 @@ let ShipmentsService = class ShipmentsService {
     async update(id, data) {
         const shipmentExists = await this.prisma.shipment.findOne({ id });
         if (!shipmentExists) {
-            throw new Error(' Shipment not found!');
+            throw new Error(" Shipment not found!");
         }
         return await this.prisma.shipment.update({ data, where: { id } });
     }
     async remove(id) {
-        return await this.prisma.shipment.remove({ where: { id } });
+        return await this.prisma.shipment.delete({ where: { id } });
     }
 };
 ShipmentsService = __decorate([

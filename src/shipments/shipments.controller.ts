@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ShipmentsService } from './shipments.service';
-import { CreateShipmentDto } from './dto/create-shipment.dto';
-import { UpdateShipmentDto } from './dto/update-shipment.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { ShipmentsService } from "./shipments.service";
+import { CreateShipmentDto } from "./dto/create-shipment.dto";
+import { UpdateShipmentDto } from "./dto/update-shipment.dto";
 
-@Controller('shipments')
+@Controller("shipments")
 export class ShipmentsController {
   constructor(private readonly shipmentsService: ShipmentsService) {}
 
@@ -17,18 +25,21 @@ export class ShipmentsController {
     return this.shipmentsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.shipmentsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShipmentDto: UpdateShipmentDto) {
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateShipmentDto: UpdateShipmentDto
+  ) {
     return this.shipmentsService.update(id, updateShipmentDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.shipmentsService.remove(id);
   }
 }
