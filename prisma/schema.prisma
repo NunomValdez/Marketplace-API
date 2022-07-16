@@ -24,7 +24,6 @@ model order {
   user_id     String    @unique
   shipment_id String
   product_id  String
-  // createdAt   DateTime  @default(now())
   shipment    shipment  @relation(fields: [shipment_id], references: [id])
   products    Product[] @relation("orderToproducts")
 
@@ -36,8 +35,6 @@ model shipment {
   from_address String
   to_address   String
   order_id     String
-  user_id      String
-  product_id   String
   delivered    Boolean @default(false)
   order        order[] @relation()
 

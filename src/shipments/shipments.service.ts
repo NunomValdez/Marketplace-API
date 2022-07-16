@@ -13,8 +13,7 @@ export class ShipmentsService {
         from_address: data.from_address,
         to_address: data.to_address,
         order_id: data.to_address,
-        user_id: data.user_id,
-        product_id: data.product_id,
+        delivered: data.delivered,
       },
     });
   }

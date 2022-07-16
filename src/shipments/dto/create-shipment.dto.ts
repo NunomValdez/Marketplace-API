@@ -14,11 +14,5 @@ export class CreateShipmentDto {
   order_id: string;
 
   @ApiProperty()
-  user_id: string;
-
-  @ApiProperty()
-  product_id: string;
-
-  @ApiProperty()
-  delivered: boolean;
+  delivered?: boolean;
 }
