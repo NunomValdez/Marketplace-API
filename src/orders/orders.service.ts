@@ -1,25 +1,28 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
-import { runInThisContext } from "vm";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 
 @Injectable()
 export class OrdersService {
-  constructor( private prisma: PrismaService ) {}
+  constructor(private prisma: PrismaService) {}
 
   async create(data: CreateOrderDto) {
-    return this.prisma.order.create({ 
-      data:{      // isto n está a funcionar pq falta fazer a relacao many to many na bd => 
-    user_id: data.user_id,
-    shipment_id: data.shipment_id, 
-    product_id : data.product_id
-    }
-   });
+    const productToCreate = await this.prisma.order.create({
+      data: {
+        // isto n está a funcionar pq falta fazer a relacao many to many na bd =>
+        user_id: data.user_id,
+        shipment_id: data.shipment_id,
+        product_id: data.product_id,
+        id: data.user_id,
+        // createdAt :  data.createdAt
+      },
+    });
+    return productToCreate;
   }
 
   async findAll() {
-    return this.prisma.order.findMany()
+    return this.prisma.order.findMany();
   }
 
   async findOne(id: string) {

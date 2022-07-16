@@ -1,9 +1,15 @@
-import { Order, Warehouse } from "@prisma/client";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateProductDto {
-  id?: string;
+  @ApiProperty()
   name: string;
-  warehouse_id? : string;
-  order_id?  : string;
+
+  @ApiProperty()
+  warehouse_id?: string;
+
+  @ApiProperty()
+  order_id?: string;
+
+  @ApiProperty()
   quantity: number;
 }

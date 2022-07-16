@@ -17,12 +17,15 @@ let OrdersService = class OrdersService {
         this.prisma = prisma;
     }
     async create(data) {
-        return this.prisma.order.create({
+        const productToCreate = await this.prisma.order.create({
             data: {
                 user_id: data.user_id,
-                shipment_id: data.shipment_id
-            }
+                shipment_id: data.shipment_id,
+                product_id: data.product_id,
+                id: data.user_id,
+            },
         });
+        return productToCreate;
     }
     async findAll() {
         return this.prisma.order.findMany();

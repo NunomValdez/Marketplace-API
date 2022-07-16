@@ -17,16 +17,26 @@ let ShipmentsService = class ShipmentsService {
         this.prisma = prisma;
     }
     async create(data) {
-        return await this.prisma.shipment.create({ data });
+        return await this.prisma.shipment.create({
+            data: {
+                from_address: data.from_address,
+                to_address: data.to_address,
+                order_id: data.to_address,
+                user_id: data.user_id,
+                product_id: data.product_id,
+            },
+        });
     }
     async findAll() {
-        return await this.prisma.shipment.findAll();
+        return await this.prisma.shipment.findMany();
     }
     async findOne(id) {
-        return await this.prisma.shipment.findOne({ where: { id } });
+        return await this.prisma.shipment.findUnique({ where: { id } });
     }
     async update(id, data) {
-        const shipmentExists = await this.prisma.shipment.findOne({ id });
+        const shipmentExists = await this.prisma.shipment.findUnique({
+            where: { id },
+        });
         if (!shipmentExists) {
             throw new Error(" Shipment not found!");
         }

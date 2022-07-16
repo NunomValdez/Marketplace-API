@@ -22,8 +22,8 @@ let ProductsService = class ProductsService {
                 name: data.name,
                 order_id: data.order_id,
                 warehouse_id: data.warehouse_id,
-                quantity: data.quantity
-            }
+                quantity: data.quantity,
+            },
         });
         return procuctToCreate;
     }

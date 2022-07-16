@@ -15,6 +15,9 @@ const shipments_module_1 = require("./shipments/shipments.module");
 const orders_module_1 = require("./orders/orders.module");
 const warehouses_module_1 = require("./warehouses/warehouses.module");
 const products_module_1 = require("./products/products.module");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
+console.log(prisma);
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
