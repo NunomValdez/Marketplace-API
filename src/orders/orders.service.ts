@@ -12,8 +12,17 @@ export class OrdersService {
       data: {
         // isto n está a funcionar pq falta fazer a relacao many to many na bd =>
         shipment_id: data.shipment_id,
-        product_id: data.product_id,
-        id: data.id,
+        products: {
+          create: [
+            {
+              product: {
+                connect: {
+                  id: data.product_id,
+                },
+              },
+            },
+          ],
+        },
         // createdAt :  data.createdAt
       },
     });

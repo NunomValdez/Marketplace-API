@@ -8,36 +8,43 @@ datasource db {
 }
 
 model Product {
-  id           String    @id @unique @default(uuid())
+  id           String           @id @unique @default(uuid())
   name         String
   warehouse_id String
   quantity     Int
-  Warehouse    warehouse @relation("productsOfWarehouse", fields: [warehouse_id], references: [id])
-  order        order     @relation(fields: [id], references: [id])
-  // orderId String?
+  warehouse    warehouse        @relation("productsOfWarehouse", fields: [warehouse_id], references: [id])
+  orders       ProductsOrders[]
 
-  @@map("products")
+  @@map("Products")
 }
 
-model order {
-  id          String    @id @unique @default(uuid())
-  shipment_id String    @unique
-  product_id  String
-  Shipment    shipment  @relation(fields: [shipment_id], references: [id])
-  product     Product[] @relation()
+model Order {
+  id          String           @id @unique @default(uuid())
+  shipment_id String           @unique
+  shipment    Shipment         @relation(fields: [shipment_id], references: [id])
+  products    ProductsOrders[]
 
-  @@map("orders")
+  @@map("Orders")
 }
 
-model shipment {
+model ProductsOrders {
+  order_id   String
+  product_id String
+  product    Product @relation(fields: [product_id], references: [id])
+  order      Order   @relation(fields: [order_id], references: [id])
+
+  @@id([order_id, product_id])
+}
+
+model Shipment {
   id           String  @id @unique @default(uuid())
   from_address String
   to_address   String
   order_id     String?
   delivered    Boolean @default(false)
-  order        order?
+  order        Order?
 
-  @@map("shipments")
+  @@map("Shipments")
 }
 
 model warehouse {
@@ -45,5 +52,5 @@ model warehouse {
   location String
   products Product[] @relation("productsOfWarehouse")
 
-  @@map("warehouses")
+  @@map("Warehouses")
 }
