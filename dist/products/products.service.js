@@ -17,7 +17,15 @@ let ProductsService = class ProductsService {
         this.prisma = prisma;
     }
     async create(data) {
-        return await this.prisma.product.create({ data });
+        const procuctToCreate = await this.prisma.product.create({
+            data: {
+                name: data.name,
+                order_id: data.order_id,
+                warehouse_id: data.warehouse_id,
+                quantity: data.quantity
+            }
+        });
+        return procuctToCreate;
     }
     async findAll() {
         return await this.prisma.product.findMany();

@@ -1,33 +1,20 @@
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
-
-//definimos aqui as nossas tabelas - model (sempre q se cria uma tabela, temos de definir um model )
-//Documentation => Specifies your database connection and contains the database schema
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-// model User {
-//   id        String @id @unique @default(uuid())
-//   user_name String @unique
-//   order_id  String
-//   mail      String
-//   address   String
-// }
-
 model Product {
   id           String    @id @unique @default(uuid())
   name         String
   warehouse_id String
-  order        Order     @relation(fields: [order_id], references: [id])
   order_id     String
-  warehouses   Warehouse @relation(fields: [warehouse_id], references: [id])
   quantity     Int
+  order        Order     @relation(fields: [order_id], references: [id])
+  warehouses   Warehouse @relation(fields: [warehouse_id], references: [id])
 
   @@map("products")
 }
@@ -38,18 +25,18 @@ model Warehouse {
   address  String
   products Product[]
 
-  @@map("warehouse")
+  @@map("warehouses")
 }
 
 model Order {
-  id           String    @id @unique @default(uuid())
-  user_id      String
-  shipment_id  String
-  products     Product[]
-  shipment     Shipment  @relation(fields: [shipment_id], references: [id])
-  order_number String
+  id          String    @id @unique @default(uuid())
+  user_id     String
+  shipment_id String
+  shipment    Shipment  @relation(fields: [shipment_id], references: [id])
+  products    Product[]
+  product_id  String
 
-  @@map("order")
+  @@map("orders")
 }
 
 model Shipment {
@@ -57,9 +44,9 @@ model Shipment {
   from_address String
   to_address   String
   order_id     String
-  orders       Order[]
   user_id      String
   product_id   String
+  orders       Order[]
 
-  @@map("shipment")
+  @@map("shipments")
 }

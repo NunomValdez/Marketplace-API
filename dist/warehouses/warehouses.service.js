@@ -17,16 +17,17 @@ let WarehousesService = class WarehousesService {
         this.prisma = prisma;
     }
     async create(data) {
+        console.log(this.prisma.warehouse);
         return this.prisma.warehouse.create({ data });
     }
     async findAll() {
-        return this.prisma.warehouse.findAll();
+        return this.prisma.warehouse.findMany();
     }
     async findOne(id) {
-        return this.prisma.warehouse.findOne({ where: { id } });
+        return this.prisma.warehouse.findUnique({ where: { id } });
     }
     async update(id, data) {
-        const warehouseExists = await this.prisma.warehouse.findOne({ id });
+        const warehouseExists = await this.prisma.warehouse.findUnique({ where: { id } });
         if (!warehouseExists) {
             throw new Error("Warehouse do not work with us, and for that does not exists no our database");
         }

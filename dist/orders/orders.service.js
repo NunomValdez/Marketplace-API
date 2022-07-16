@@ -16,14 +16,19 @@ let OrdersService = class OrdersService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async create(createOrderDto) {
-        return this.prisma.order.create({ createOrderDto });
+    async create(data) {
+        return this.prisma.order.create({
+            data: {
+                user_id: data.user_id,
+                shipment_id: data.shipment_id
+            }
+        });
     }
     async findAll() {
-        return this.prisma.order.findAll();
+        return this.prisma.order.findMany();
     }
     async findOne(id) {
-        return this.prisma.order.findOne({ where: { id } });
+        return this.prisma.order.findUnique({ where: { id } });
     }
     async update(id, data) {
         const orderExists = await this.prisma.order.findUnique({ where: { id } });

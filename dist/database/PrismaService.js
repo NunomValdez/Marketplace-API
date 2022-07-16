@@ -10,24 +10,6 @@ exports.PrismaService = void 0;
 const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
 let PrismaService = class PrismaService extends client_1.PrismaClient {
-    get order() {
-        return this._order;
-    }
-    set order(value) {
-        this._order = value;
-    }
-    get warehouse() {
-        return this._warehouse;
-    }
-    set warehouse(value) {
-        this._warehouse = value;
-    }
-    get shipment() {
-        return this._shipment;
-    }
-    set shipment(value) {
-        this._shipment = value;
-    }
     async onModuleInit() {
         await this.$connect();
     }

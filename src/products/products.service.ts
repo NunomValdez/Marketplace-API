@@ -1,23 +1,27 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import { PrismaService } from "src/database/PrismaService";
-import { Order } from "src/orders/entities/order.entity";
-import { Shipment } from "src/shipments/entities/shipment.entity";
-import { Warehouse } from "src/warehouses/entities/warehouse.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { Product } from "./entities/product.entity";
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor( private prisma: PrismaService ) {}
 
   //only an ADMIN user has the capability to create products on the system
-  // a buyer user can create orders and ask for many products in the same or diferent order
+  // a buyer user can create orders and as for many products in the same or diferent order
 
-  async create(data: CreateProductDto) {
-    return await this.prisma.product.create({ data });
-  }
+ async create( data: CreateProductDto ) {
+   const procuctToCreate = await this.prisma.product.create({
+    data: {
+      name : data.name,
+      order_id : data.order_id,
+      warehouse_id: data.warehouse_id,
+      quantity: data.quantity
+    }
+   })
+   // CreateProductDto  != ProductCreateInput, ProductUncheckedCreateInput
+   return procuctToCreate
+ }
 
   async findAll() {
     return await this.prisma.product.findMany();
