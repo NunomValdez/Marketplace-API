@@ -10,6 +10,7 @@ export class ShipmentsService {
   async create(data: CreateShipmentDto) {
     return await this.prisma.shipment.create({
       data: {
+        id: data.id,
         from_address: data.from_address,
         to_address: data.to_address,
         order_id: data.to_address,

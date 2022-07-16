@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 export class CreateOrderDto {
   @ApiProperty()
   // {example:"kokokook"}
-  user_id?: string;
+  id?: string;
 
   @ApiProperty()
   product_id: string;

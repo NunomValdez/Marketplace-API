@@ -11,10 +11,9 @@ export class OrdersService {
     const productToCreate = await this.prisma.order.create({
       data: {
         // isto n está a funcionar pq falta fazer a relacao many to many na bd =>
-        user_id: data.user_id,
         shipment_id: data.shipment_id,
         product_id: data.product_id,
-        id: data.user_id,
+        id: data.id,
         // createdAt :  data.createdAt
       },
     });

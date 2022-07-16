@@ -19,10 +19,9 @@ let OrdersService = class OrdersService {
     async create(data) {
         const productToCreate = await this.prisma.order.create({
             data: {
-                user_id: data.user_id,
                 shipment_id: data.shipment_id,
                 product_id: data.product_id,
-                id: data.user_id,
+                id: data.id,
             },
         });
         return productToCreate;

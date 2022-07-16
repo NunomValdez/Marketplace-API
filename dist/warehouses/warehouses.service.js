@@ -20,9 +20,8 @@ let WarehousesService = class WarehousesService {
         console.log(this.prisma.warehouse);
         return this.prisma.warehouse.create({
             data: {
-                id: data.id,
                 location: data.location,
-                address: data.address,
+                id: data.id,
             },
         });
     }

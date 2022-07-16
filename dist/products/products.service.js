@@ -19,6 +19,7 @@ let ProductsService = class ProductsService {
     async create(data) {
         const procuctToCreate = await this.prisma.product.create({
             data: {
+                id: data.id,
                 name: data.name,
                 order_id: data.order_id,
                 warehouse_id: data.warehouse_id,

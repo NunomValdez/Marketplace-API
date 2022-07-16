@@ -6,10 +6,4 @@ export class CreateWarehouseDto {
 
   @ApiProperty()
   location: string;
-
-  @ApiProperty()
-  address: string;
-
-  @ApiProperty()
-  delivered: Boolean;
 }
