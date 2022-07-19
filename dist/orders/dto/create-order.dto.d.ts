@@ -1,5 +1,5 @@
+import { OrderProduct } from "../types/orderProduct.type";
 export declare class CreateOrderDto {
-    id?: string;
-    product_id: string;
-    shipment_id: string;
+    products: OrderProduct[];
+    shipment_id?: string;
 }

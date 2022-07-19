@@ -17,14 +17,38 @@ let OrdersService = class OrdersService {
         this.prisma = prisma;
     }
     async create(data) {
-        const productToCreate = await this.prisma.order.create({
-            data: {
-                shipment_id: data.shipment_id,
-                product_id: data.product_id,
-                id: data.id,
+        const arrayOfProductId = data.products.reduce((acc, product) => {
+            acc = [...acc, product.id];
+            return acc;
+        }, []);
+        const productToOrder = await this.prisma.product.findMany({
+            where: {
+                id: {
+                    in: arrayOfProductId,
+                },
             },
         });
-        return productToCreate;
+        if (productToOrder.length === arrayOfProductId.length) {
+            const idProduto = data.products.map((product) => {
+                return {
+                    product: {
+                        connect: {
+                            id: product.id,
+                        },
+                    },
+                };
+            });
+            console.log(idProduto);
+            const productToCreate = await this.prisma.order.create({
+                data: {
+                    products: {
+                        connect: {
+                            id: idProduto,
+                        },
+                    },
+                },
+            });
+        }
     }
     async findAll() {
         return this.prisma.order.findMany();
@@ -37,7 +61,7 @@ let OrdersService = class OrdersService {
         if (!orderExists) {
             throw new Error("This order does not exists");
         }
-        return this.prisma.order.update({ data, where: { id } });
+        return this.prisma.order.update({ where: { id }, data });
     }
     async remove(id) {
         return this.prisma.order.delete({ where: { id } });

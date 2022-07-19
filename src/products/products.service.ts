@@ -15,7 +15,6 @@ export class ProductsService {
       data: {
         id: data.id,
         name: data.name,
-        order_id: data.order_id,
         warehouse_id: data.warehouse_id,
         quantity: data.quantity,
       },

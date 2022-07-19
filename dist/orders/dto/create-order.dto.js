@@ -15,12 +15,8 @@ class CreateOrderDto {
 }
 __decorate([
     (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], CreateOrderDto.prototype, "id", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], CreateOrderDto.prototype, "product_id", void 0);
+    __metadata("design:type", Array)
+], CreateOrderDto.prototype, "products", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)

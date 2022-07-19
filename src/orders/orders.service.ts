@@ -8,26 +8,63 @@ export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateOrderDto) {
-    const productToCreate = await this.prisma.order.create({
-      data: {
-        // isto n está a funcionar pq falta fazer a relacao many to many na bd =>
-        shipment_id: data.shipment_id,
-        products: {
-          create: [
-            {
-              product: {
-                connect: {
-                  id: data.product_id,
-                },
-              },
-            },
-          ],
+    const arrayOfProductId = data.products.reduce((acc, product) => {
+      acc = [...acc, product.id]; // mesmo que acc.push(product.id)
+      return acc;
+    }, []); //devolte um array com os ID's de cada produto
+
+    //com o array de ID's, vamos achar todos os produtos q têm o ID respectivo
+    const productToOrder = await this.prisma.product.findMany({
+      where: {
+        id: {
+          in: arrayOfProductId,
         },
-        // createdAt :  data.createdAt
       },
     });
-    return productToCreate;
+    //se o tamanho do array de produtos achasdos na BB, for igual ao tamanho do array de ID's que queremos, entao temos de criar as orders com os respectivos ID's:
+    if (productToOrder.length === arrayOfProductId.length) {
+      const idProduto = data.products.map((product) => {
+        return {
+          product: {
+            connect: {
+              id: product.id,
+            },
+          },
+        };
+      });
+
+      // //no array de produtos, idProduto, vamos a cada 1 dos elementos, q é um id, e retiramos esse valor:
+      //      const productRespectivId =  idProduto.forEach(idElement =>{
+      //         product:{
+      //           connect:{
+      //             id: idElement
+      //           }
+      //         }
+      //       })
+      // const produtoComID = idProduto.map((produto) => {
+      //  return {
+      //   connect: {
+      //     id : produto
+      //   }
+      //  }
+      // });
+      console.log(idProduto);
+      const productToCreate = await this.prisma.order.create({
+        data: {
+          //ver qual o erro q está neste data, nao entendo
+          // shipment: data.shipment_id,
+          products: {
+            connect: {
+              id: idProduto,
+            },
+          },
+        },
+      });
+    }
   }
+  // else {
+  //   return "There are not products to order";
+  // }
 
   async findAll() {
     return this.prisma.order.findMany();
@@ -44,7 +81,7 @@ export class OrdersService {
       throw new Error("This order does not exists");
     }
 
-    return this.prisma.order.update({ data, where: { id } });
+    return this.prisma.order.update({ where: { id }, data });
   }
 
   async remove(id: string) {

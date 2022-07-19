@@ -4,9 +4,9 @@ import { UpdateOrderDto } from "./dto/update-order.dto";
 export declare class OrdersController {
     private readonly ordersService;
     constructor(ordersService: OrdersService);
-    create(data: CreateOrderDto): Promise<import(".prisma/client").order>;
-    findAll(): Promise<import(".prisma/client").order[]>;
-    findOne(id: string): Promise<import(".prisma/client").order>;
-    update(id: string, data: UpdateOrderDto): Promise<import(".prisma/client").order>;
-    remove(id: string): Promise<import(".prisma/client").order>;
+    create(data: CreateOrderDto): Promise<void>;
+    findAll(): Promise<import(".prisma/client").Order[]>;
+    findOne(id: string): Promise<import(".prisma/client").Order>;
+    update(id: string, data: UpdateOrderDto): Promise<import(".prisma/client").Order>;
+    remove(id: string): Promise<import(".prisma/client").Order>;
 }

@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+  // url =  file:./dev.db
 }
 
 model Product {
@@ -28,10 +29,11 @@ model Order {
 }
 
 model ProductsOrders {
-  order_id   String
-  product_id String
-  product    Product @relation(fields: [product_id], references: [id])
-  order      Order   @relation(fields: [order_id], references: [id])
+  order_id         String
+  product_id       String
+  product_quantity Int
+  products         Product @relation(fields: [product_id], references: [id]) // a variavel product, do tipo model Product, diz respeito ao campo "product_id", que se refere ao "id" desse elemento
+  orders           Order   @relation(fields: [order_id], references: [id])
 
   @@id([order_id, product_id])
 }
