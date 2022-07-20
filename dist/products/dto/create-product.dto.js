@@ -27,10 +27,6 @@ __decorate([
 ], CreateProductDto.prototype, "warehouse_id", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], CreateProductDto.prototype, "order_id", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
 ], CreateProductDto.prototype, "quantity", void 0);
 exports.CreateProductDto = CreateProductDto;

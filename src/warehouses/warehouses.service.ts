@@ -8,7 +8,7 @@ export class WarehousesService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateWarehouseDto) {
-    console.log(this.prisma.warehouse);
+    // console.log(this.prisma.warehouse);
     return this.prisma.warehouse.create({
       data: {
         location: data.location,

@@ -17,10 +17,7 @@ let OrdersService = class OrdersService {
         this.prisma = prisma;
     }
     async create(data) {
-        const arrayOfProductId = data.products.reduce((acc, product) => {
-            acc = [...acc, product.id];
-            return acc;
-        }, []);
+        const arrayOfProductId = data.products.map((product) => product.id);
         const productToOrder = await this.prisma.product.findMany({
             where: {
                 id: {
@@ -29,8 +26,9 @@ let OrdersService = class OrdersService {
             },
         });
         if (productToOrder.length === arrayOfProductId.length) {
-            const idProduto = data.products.map((product) => {
+            const productAssociations = data.products.map((product) => {
                 return {
+                    product_quantity: product.quantity,
                     product: {
                         connect: {
                             id: product.id,
@@ -38,16 +36,14 @@ let OrdersService = class OrdersService {
                     },
                 };
             });
-            console.log(idProduto);
             const productToCreate = await this.prisma.order.create({
                 data: {
                     products: {
-                        connect: {
-                            id: idProduto,
-                        },
+                        create: productAssociations,
                     },
                 },
             });
+            return productToCreate;
         }
     }
     async findAll() {
@@ -61,7 +57,15 @@ let OrdersService = class OrdersService {
         if (!orderExists) {
             throw new Error("This order does not exists");
         }
-        return this.prisma.order.update({ where: { id }, data });
+        return this.prisma.order.update({
+            where: {
+                id,
+            },
+            data: {
+                products: { set: data.products },
+                shipment_id: data.shipment_id,
+            },
+        });
     }
     async remove(id) {
         return this.prisma.order.delete({ where: { id } });

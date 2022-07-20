@@ -21,8 +21,8 @@ model Product {
 
 model Order {
   id          String           @id @unique @default(uuid())
-  shipment_id String           @unique
-  shipment    Shipment         @relation(fields: [shipment_id], references: [id])
+  shipment_id String?          @unique
+  shipment    Shipment?        @relation(fields: [shipment_id], references: [id])
   products    ProductsOrders[]
 
   @@map("Orders")
@@ -32,7 +32,7 @@ model ProductsOrders {
   order_id         String
   product_id       String
   product_quantity Int
-  products         Product @relation(fields: [product_id], references: [id]) // a variavel product, do tipo model Product, diz respeito ao campo "product_id", que se refere ao "id" desse elemento
+  products         Product @relation(fields: [product_id], references: [id])
   orders           Order   @relation(fields: [order_id], references: [id])
 
   @@id([order_id, product_id])

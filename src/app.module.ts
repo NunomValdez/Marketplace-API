@@ -9,7 +9,7 @@ import { ProductsModule } from "./products/products.module";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-console.log(prisma); // permite dizer quais os middlewares a usa? aparece no console.log do obj
+// permite dizer quais os middlewares a usa? aparece no console.log do obj
 
 // const config: SqliteConnectionOptions = {
 //   type: 'sqlite',

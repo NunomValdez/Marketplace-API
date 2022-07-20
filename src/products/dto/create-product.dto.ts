@@ -11,8 +11,5 @@ export class CreateProductDto {
   warehouse_id?: string;
 
   @ApiProperty()
-  order_id?: string;
-
-  @ApiProperty()
   quantity: number;
 }

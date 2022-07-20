@@ -17,7 +17,6 @@ let WarehousesService = class WarehousesService {
         this.prisma = prisma;
     }
     async create(data) {
-        console.log(this.prisma.warehouse);
         return this.prisma.warehouse.create({
             data: {
                 location: data.location,
