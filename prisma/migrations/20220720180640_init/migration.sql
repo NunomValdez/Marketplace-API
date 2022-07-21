@@ -10,15 +10,17 @@ CREATE TABLE "Products" (
 -- CreateTable
 CREATE TABLE "Orders" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "shipment_id" TEXT NOT NULL,
-    CONSTRAINT "Orders_shipment_id_fkey" FOREIGN KEY ("shipment_id") REFERENCES "Shipments" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "shipment_id" TEXT,
+    CONSTRAINT "Orders_shipment_id_fkey" FOREIGN KEY ("shipment_id") REFERENCES "Shipments" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "ProductsOrders" (
-    "id" TEXT NOT NULL PRIMARY KEY,
     "order_id" TEXT NOT NULL,
     "product_id" TEXT NOT NULL,
+    "product_quantity" INTEGER NOT NULL,
+
+    PRIMARY KEY ("order_id", "product_id"),
     CONSTRAINT "ProductsOrders_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "ProductsOrders_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "Orders" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -46,9 +48,6 @@ CREATE UNIQUE INDEX "Orders_id_key" ON "Orders"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Orders_shipment_id_key" ON "Orders"("shipment_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ProductsOrders_id_key" ON "ProductsOrders"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Shipments_id_key" ON "Shipments"("id");

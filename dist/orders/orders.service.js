@@ -29,7 +29,7 @@ let OrdersService = class OrdersService {
             const productAssociations = data.products.map((product) => {
                 return {
                     product_quantity: product.quantity,
-                    product: {
+                    products: {
                         connect: {
                             id: product.id,
                         },
@@ -43,7 +43,6 @@ let OrdersService = class OrdersService {
                     },
                 },
             });
-            return productToCreate;
         }
     }
     async findAll() {
@@ -53,17 +52,31 @@ let OrdersService = class OrdersService {
         return this.prisma.order.findUnique({ where: { id } });
     }
     async update(id, data) {
-        const orderExists = await this.prisma.order.findUnique({ where: { id } });
+        const orderExists = await this.prisma.order.findUniqueOrThrow({
+            where: { id },
+        });
         if (!orderExists) {
             throw new Error("This order does not exists");
         }
-        return this.prisma.order.update({
+        const productsToUpdate = data.products.map((product) => {
+            return {
+                product_quantity: product.quantity,
+                products: {
+                    connect: {
+                        id: product.id,
+                    },
+                },
+            };
+        });
+        console.log(productsToUpdate);
+        return await this.prisma.order.update({
             where: {
                 id,
             },
             data: {
-                products: { set: data.products },
-                shipment_id: data.shipment_id,
+                products: {
+                    create: productsToUpdate,
+                },
             },
         });
     }

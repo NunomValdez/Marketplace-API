@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Body, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
@@ -24,7 +24,7 @@ export class OrdersService {
       const productAssociations = data.products.map((product) => {
         return {
           product_quantity: product.quantity,
-          product: {
+          products: {
             connect: {
               id: product.id,
             },
@@ -39,28 +39,6 @@ export class OrdersService {
           },
         },
       });
-      return productToCreate;
-      // await Promise.all(
-      //   data.products.map(async (product) => {
-      //     await this.prisma.order.create({
-      //       data: {
-      //         products: {
-      //           connect: {
-      //             id: product.id,
-      //           },
-      //         },
-      //         shipment: {
-      //           connect: {
-      //             id: data.shipment_id,
-      //           },
-      //         },
-      //       },
-      //     });
-      //   })
-      // );
-      // return productToOrder;
-
-      // return new Error("Invalid products");
     }
   }
 
@@ -73,20 +51,37 @@ export class OrdersService {
   }
 
   async update(id: string, data: UpdateOrderDto) {
-    const orderExists = await this.prisma.order.findUnique({ where: { id } });
+    const orderExists = await this.prisma.order.findUniqueOrThrow({
+      where: { id },
+    });
     //primeiro temos de ver se a order existe,
     if (!orderExists) {
       throw new Error("This order does not exists");
     }
 
-    return this.prisma.order.update({
+    const productsToUpdate = data.products.map((product) => {
+      return {
+        product_quantity: product.quantity,
+        products: {
+          connect: {
+            id: product.id,
+          },
+        },
+      };
+    });
+    console.log(productsToUpdate);
+
+    return await this.prisma.order.update({
       where: {
         id,
       },
       data: {
-        products: { set: data.products },
-        shipment_id: data.shipment_id,
+        products: {
+          create: productsToUpdate,
+        },
       },
+      // products: data.products,  falta perceber este erro! a tabela productsOrders é onde está o array de products q queremos actualizar, pq o orders n tem produtos no schema, mas o orderproducts ja tem
+      // shipment_id: data.shipment_id,
     });
   }
 
