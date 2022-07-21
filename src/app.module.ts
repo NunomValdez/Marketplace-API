@@ -9,14 +9,6 @@ import { ProductsModule } from "./products/products.module";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-// permite dizer quais os middlewares a usa? aparece no console.log do obj
-
-// const config: SqliteConnectionOptions = {
-//   type: 'sqlite',
-//   database:'file:./dev.db',
-//   entities: [Order, Product, Warehouse, Shipment],
-//   synchronize: true //tirar em producao!
-// }
 
 @Module({
   imports: [ShipmentsModule, OrdersModule, WarehousesModule, ProductsModule],

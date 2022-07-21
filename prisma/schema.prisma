@@ -21,8 +21,8 @@ model Product {
 
 model Order {
   id          String           @id @unique @default(uuid())
-  shipment_id String?          @unique
-  shipment    Shipment?        @relation(fields: [shipment_id], references: [id])
+  shipment_id String           @unique @default(uuid())
+  shipment    Shipment         @relation(fields: [shipment_id], references: [id])
   products    ProductsOrders[]
 
   @@map("Orders")
@@ -35,6 +35,7 @@ model ProductsOrders {
   products         Product @relation(fields: [product_id], references: [id])
   orders           Order   @relation(fields: [order_id], references: [id])
 
+  // Shipment Shipment[]
   @@id([order_id, product_id])
 }
 
@@ -42,16 +43,19 @@ model Shipment {
   id           String  @id @unique @default(uuid())
   from_address String
   to_address   String
-  order_id     String?
+  order_id     String  @default(uuid())
   delivered    Boolean @default(false)
-  order        Order?
+  // products_orders ProductsOrders @relation(fields: [productsOrdersOrder_id, productsOrdersProduct_id], references: [order_id, product_id])
 
+  order Order[]
+  // productsOrdersOrder_id   String
+  // productsOrdersProduct_id String
   @@map("Shipments")
 }
 
 model warehouse {
   id       String    @id @unique @default(uuid())
-  location String
+  location String?
   products Product[] @relation("productsOfWarehouse")
 
   @@map("Warehouses")

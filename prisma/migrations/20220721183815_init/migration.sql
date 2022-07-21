@@ -10,8 +10,8 @@ CREATE TABLE "Products" (
 -- CreateTable
 CREATE TABLE "Orders" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "shipment_id" TEXT,
-    CONSTRAINT "Orders_shipment_id_fkey" FOREIGN KEY ("shipment_id") REFERENCES "Shipments" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "shipment_id" TEXT NOT NULL,
+    CONSTRAINT "Orders_shipment_id_fkey" FOREIGN KEY ("shipment_id") REFERENCES "Shipments" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -30,7 +30,7 @@ CREATE TABLE "Shipments" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "from_address" TEXT NOT NULL,
     "to_address" TEXT NOT NULL,
-    "order_id" TEXT,
+    "order_id" TEXT NOT NULL,
     "delivered" BOOLEAN NOT NULL DEFAULT false
 );
 

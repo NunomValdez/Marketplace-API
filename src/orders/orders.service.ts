@@ -1,4 +1,4 @@
-import { Body, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
@@ -8,7 +8,14 @@ export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateOrderDto) {
-    const arrayOfProductId = data.products.map((product) => product.id);
+    // const arrayOfProductId = data.products.map((product) => {
+    //   return product.id;
+    // });
+    const arrayOfProductId = data.products.reduce((acc, product) => {
+      acc.push(product.id);
+      return acc;
+    }, []);
+
     //devolte um array com os ID's de cada produto
 
     //com o array de ID's, vamos achar todos os produtos q têm o ID respectivo
@@ -19,6 +26,7 @@ export class OrdersService {
         },
       },
     });
+
     //se o tamanho do array de produtos achasdos na DB, for igual ao tamanho do array de ID's que queremos, entao temos de criar as orders com os respectivos ID's:
     if (productToOrder.length === arrayOfProductId.length) {
       const productAssociations = data.products.map((product) => {
@@ -37,6 +45,7 @@ export class OrdersService {
           products: {
             create: productAssociations,
           },
+          // shipment_id: data.shipment_id,
         },
       });
     }
@@ -69,20 +78,17 @@ export class OrdersService {
         },
       };
     });
-    console.log(productsToUpdate);
 
     return await this.prisma.order.update({
       where: {
         id,
       },
       data: {
-        products: {
-          create: productsToUpdate,
-        },
+        shipment_id: data.shipment_id,
       },
-      // products: data.products,  falta perceber este erro! a tabela productsOrders é onde está o array de products q queremos actualizar, pq o orders n tem produtos no schema, mas o orderproducts ja tem
-      // shipment_id: data.shipment_id,
     });
+    // products: data.products,  falta perceber este erro! a tabela productsOrders é onde está o array de products q queremos actualizar, pq o orders n tem produtos no schema, mas o orderproducts ja tem
+    // shipment_id: data.shipment_id,
   }
 
   async remove(id: string) {

@@ -3,11 +3,11 @@ import { OrderProduct } from "../types/orderProduct.type";
 
 export class CreateOrderDto {
   @ApiProperty()
-  products?: OrderProduct[];
+  products: OrderProduct[];
 
   @ApiProperty()
   shipment_id?: string;
 
   // @ApiProperty()
-  // quantity: Number;
+  // product_quantity: Number;
 }

@@ -17,7 +17,10 @@ let OrdersService = class OrdersService {
         this.prisma = prisma;
     }
     async create(data) {
-        const arrayOfProductId = data.products.map((product) => product.id);
+        const arrayOfProductId = data.products.reduce((acc, product) => {
+            acc.push(product.id);
+            return acc;
+        }, []);
         const productToOrder = await this.prisma.product.findMany({
             where: {
                 id: {
@@ -68,15 +71,12 @@ let OrdersService = class OrdersService {
                 },
             };
         });
-        console.log(productsToUpdate);
         return await this.prisma.order.update({
             where: {
                 id,
             },
             data: {
-                products: {
-                    create: productsToUpdate,
-                },
+                shipment_id: data.shipment_id,
             },
         });
     }
