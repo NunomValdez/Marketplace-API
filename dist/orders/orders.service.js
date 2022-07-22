@@ -29,6 +29,16 @@ let OrdersService = class OrdersService {
             },
         });
         if (productToOrder.length === arrayOfProductId.length) {
+            const updatedProductQuantity = productToOrder.map((product) => {
+                data.products.map((objeto) => {
+                    if (product.id === objeto.id) {
+                        if (objeto.quantity > product.quantity) {
+                            return "Unsuficient product quantity";
+                        }
+                        product.quantity = product.quantity - objeto.quantity;
+                    }
+                });
+            });
             const productAssociations = data.products.map((product) => {
                 return {
                     product_quantity: product.quantity,
@@ -39,7 +49,7 @@ let OrdersService = class OrdersService {
                     },
                 };
             });
-            const productToCreate = await this.prisma.order.create({
+            return await this.prisma.order.create({
                 data: {
                     products: {
                         create: productAssociations,

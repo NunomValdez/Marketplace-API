@@ -16,9 +16,6 @@ export class OrdersService {
       return acc;
     }, []);
 
-    //devolte um array com os ID's de cada produto
-
-    //com o array de ID's, vamos achar todos os produtos q têm o ID respectivo
     const productToOrder = await this.prisma.product.findMany({
       where: {
         id: {
@@ -28,7 +25,20 @@ export class OrdersService {
     });
 
     //se o tamanho do array de produtos achasdos na DB, for igual ao tamanho do array de ID's que queremos, entao temos de criar as orders com os respectivos ID's:
+
     if (productToOrder.length === arrayOfProductId.length) {
+      //making the update of product_quantity, to alter products table (not here, later)
+      const updatedProductQuantity = productToOrder.map((product) => {
+        data.products.map((objeto) => {
+          if (product.id === objeto.id) {
+            if (objeto.quantity > product.quantity) {
+              return "Unsuficient product quantity";
+            }
+            product.quantity = product.quantity - objeto.quantity;
+          }
+        });
+      });
+
       const productAssociations = data.products.map((product) => {
         return {
           product_quantity: product.quantity,
@@ -40,7 +50,7 @@ export class OrdersService {
         };
       });
 
-      const productToCreate = await this.prisma.order.create({
+      return await this.prisma.order.create({
         data: {
           products: {
             create: productAssociations,
@@ -48,6 +58,15 @@ export class OrdersService {
           shipment_id: data.shipment_id,
         },
       });
+
+      // const quantityUpdate = await this.prisma.product.updateMany({
+      //   where:{ id },
+      //   data:{
+      //     quantity:{
+      //       decrement: updatedProductQuantity
+      //     }
+      //   }
+      //   }
     }
   }
 
