@@ -44,6 +44,7 @@ let OrdersService = class OrdersService {
                     products: {
                         create: productAssociations,
                     },
+                    shipment_id: data.shipment_id,
                 },
             });
         }

@@ -9,22 +9,25 @@ datasource db {
 }
 
 model Product {
-  id           String           @id @unique @default(uuid())
+  id           String    @id @unique @default(uuid())
   name         String
   warehouse_id String
   quantity     Int
-  warehouse    warehouse        @relation("productsOfWarehouse", fields: [warehouse_id], references: [id])
-  orders       ProductsOrders[]
+  warehouse    warehouse @relation("productsOfWarehouse", fields: [warehouse_id], references: [id])
+  order        Order?    @relation(fields: [order_id], references: [id])
+  order_id     String?
 
+  orders ProductsOrders[]
   @@map("Products")
 }
 
 model Order {
-  id          String           @id @unique @default(uuid())
-  shipment_id String           @unique @default(uuid()) //n sei se é suposto ter o default, mas qd crio no prisma studio, nao vai buscar o valor do shiping à tabela do shiping
-  shipment    Shipment         @relation(fields: [shipment_id], references: [id])
-  products    ProductsOrders[]
+  id          String    @id @unique @default(uuid())
+  shipment_id String?   @unique
+  shipment    Shipment? @relation(fields: [shipment_id], references: [id])
+  product     Product[]
 
+  products ProductsOrders[]
   @@map("Orders")
 }
 
@@ -35,7 +38,6 @@ model ProductsOrders {
   products         Product @relation(fields: [product_id], references: [id])
   orders           Order   @relation(fields: [order_id], references: [id])
 
-  // Shipment Shipment[]
   @@id([order_id, product_id])
 }
 
@@ -43,13 +45,10 @@ model Shipment {
   id           String  @id @unique @default(uuid())
   from_address String
   to_address   String
-  order_id     String  @default(uuid())
-  delivered    Boolean @default(false)
-  // products_orders ProductsOrders @relation(fields: [productsOrdersOrder_id, productsOrdersProduct_id], references: [order_id, product_id])
+  order_id     String
+  delivered    Boolean @default(false) // this way, admin can see if delivered is true or false
 
   order Order[]
-  // productsOrdersOrder_id   String
-  // productsOrdersProduct_id String
   @@map("Shipments")
 }
 

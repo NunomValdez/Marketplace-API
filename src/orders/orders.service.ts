@@ -45,7 +45,7 @@ export class OrdersService {
           products: {
             create: productAssociations,
           },
-          // shipment_id: data.shipment_id,
+          shipment_id: data.shipment_id,
         },
       });
     }

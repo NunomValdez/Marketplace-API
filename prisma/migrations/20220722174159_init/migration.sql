@@ -4,14 +4,16 @@ CREATE TABLE "Products" (
     "name" TEXT NOT NULL,
     "warehouse_id" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
+    "order_id" TEXT,
+    CONSTRAINT "Products_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "Orders" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Products_warehouse_id_fkey" FOREIGN KEY ("warehouse_id") REFERENCES "Warehouses" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "Orders" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "shipment_id" TEXT NOT NULL,
-    CONSTRAINT "Orders_shipment_id_fkey" FOREIGN KEY ("shipment_id") REFERENCES "Shipments" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "shipment_id" TEXT,
+    CONSTRAINT "Orders_shipment_id_fkey" FOREIGN KEY ("shipment_id") REFERENCES "Shipments" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -37,7 +39,7 @@ CREATE TABLE "Shipments" (
 -- CreateTable
 CREATE TABLE "Warehouses" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "location" TEXT NOT NULL
+    "location" TEXT
 );
 
 -- CreateIndex
