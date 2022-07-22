@@ -21,7 +21,7 @@ model Product {
 
 model Order {
   id          String           @id @unique @default(uuid())
-  shipment_id String           @unique @default(uuid())
+  shipment_id String           @unique @default(uuid()) //n sei se é suposto ter o default, mas qd crio no prisma studio, nao vai buscar o valor do shiping à tabela do shiping
   shipment    Shipment         @relation(fields: [shipment_id], references: [id])
   products    ProductsOrders[]
 
