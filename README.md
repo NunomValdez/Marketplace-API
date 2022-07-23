@@ -110,4 +110,6 @@ In this App, you have the following Endpoints:
 
 ---
 
+**Note:** You have to create a .env file, and put this variable: DATABASE_URL="file:./dev.db".
+
 I really hope you liked my Rest API, thanks! :thumbsup:
