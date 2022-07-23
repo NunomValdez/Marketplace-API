@@ -2,7 +2,7 @@
 
 In this project, you can find a **REST API** made in NodeJS, using NestJS as framework, Prisma as ORM, leveraging a SQL database - SQLite - as means of storing the data.
 
-As desired, here you can make a CRUD - **C**reate, **R**ead, **U**pdate and/or **D**elete products, orders and shippings.
+As desired, here you can make a CRUD - **C**reate, **R**ead, **U**pdate and/or **D**elete products, orders, warehouses and shippings.
 
 ---
 
@@ -33,11 +33,11 @@ There are some choices to run this App:
 
 **Important NOTE :** In Swagger, the order DTO is incorrect - it's supose to receive an object with two properties (id and quantity), and in swagger the automatic DTO tells us that "products" is an Array of strings.
 
-### Endpoints
+## Endpoints
 
 In this App, you have the following Endpoints:
 
-#### Warehouses
+### Warehouses
 
 **Data example:**
 
@@ -47,7 +47,7 @@ In this App, you have the following Endpoints:
 }
 ```
 
-#### Products
+### Products
 
 **Data example:**
 
@@ -59,7 +59,7 @@ In this App, you have the following Endpoints:
 }
 ```
 
-#### Orders
+### Orders
 
 **Data example:**
 
@@ -81,7 +81,7 @@ In this App, you have the following Endpoints:
 
 **Important Note:** You have to provide this object structure to make the create, and/or update Orders!
 
-#### Shipments
+### Shipments
 
 **Data exaple:**
 
@@ -98,13 +98,13 @@ In this App, you have the following Endpoints:
 
 **Important:** It's important you follow this Endpoint's order, to make a functional CRUD.
 
-1- Warehouses - So we can associate a product with a warehouse;
+1- **Warehouses** - So we can associate a product with a warehouse;
 
-2- Products - This way we can create products, and relate them to a warehouse, if so;
+2- **Products** - This way we can create products, and relate them to a warehouse;
 
-3- Orders - We can make an Order, and associate it with the array of products, and a location;
+3- **Orders** - We can make an Order, and associate it with the array of products, and a location;
 
-4- Shipments - This way we can relate a "from" and a "to" address, associate it with an order and know if it was delivered or not
+4- **Shipments** - This way we can relate a "from" and a "to" address, associate it with an order and also know if it was delivered or not.
 
 ##### Author Contacts:
 
