@@ -7,7 +7,7 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
-  //only an ADMIN user has the capability to create products on the system
+  // only an ADMIN user has the capability to create products on the system
   // a buyer user can create orders and as for many products in the same or diferent order
 
   async create(data: CreateProductDto) {
@@ -19,7 +19,7 @@ export class ProductsService {
         quantity: data.quantity,
       },
     });
-    // CreateProductDto  != ProductCreateInput, ProductUncheckedCreateInput
+
     return procuctToCreate;
   }
 
@@ -46,6 +46,6 @@ export class ProductsService {
   }
 
   async remove(id: string) {
-    return this.prisma.product.delete({ where: { id } });
+    return await this.prisma.product.delete({ where: { id } });
   }
 }

@@ -14,6 +14,11 @@ export class ShipmentsService {
         to_address: data.to_address,
         order_id: data.order_id,
         delivered: data.delivered,
+        order: {
+          connect: {
+            id: data.order_id,
+          },
+        },
       },
     });
   }

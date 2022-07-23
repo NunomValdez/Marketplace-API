@@ -2,13 +2,13 @@
 
 In this project, you can find a **REST API** made in NodeJS, using NestJS as framework, Prisma as ORM, leveraging a SQL database - SQLite - as means of storing the data.
 
-As desired, here you can make a CRUD - **C**reate, **R**ead, **U**pdate and/or **D**elete products, orders, warehouses and shippings.
+As desired, here you can make a CRUD - **C**reate, **R**ead, **U**pdate and/or **D**elete products, orders, warehouses and shipments.
 
 ---
 
 ### Getting started
 
-**Note:** You have to have NodeJS installed in your system.
+**Note:** You need to have NodeJS installed in your system.
 
 - Download the Git repository to your machine;
 - Run the command "npm install" in the terminal, in the project folder;
@@ -31,7 +31,7 @@ There are some choices to run this App:
 - Insomnia / Postman:
   - Run the command "npm run start" in the terminal.
 
-**Important NOTE :** In Swagger, the order DTO is incorrect - it's supose to receive an object with two properties (id and quantity), and in swagger the automatic DTO tells us that "products" is an Array of strings.
+**Important NOTE :** In Swagger, the order DTO is incorrect - it's suposed to receive an object with two properties (id and quantity), and in swagger the automatic DTO tells us that "products" is an Array of strings.
 
 ## Endpoints
 
@@ -102,12 +102,12 @@ In this App, you have the following Endpoints:
 
 2- **Products** - This way we can create products, and relate them to a warehouse;
 
-3- **Orders** - We can make an Order, and associate it with the array of products, and a location;
+3- **Orders** - We can create an Order, and associate it with the array of products;
 
 4- **Shipments** - This way we can relate a "from" and a "to" address, associate it with an order and also know if it was delivered or not.
 
-##### Author Contacts:
+- **Note:** If you delete a shipment, the order shipment_id will be null, and it makes it impossible to delete the order, due to foreign key constraints.
 
-- :e-mail: : nunomvmf@gmail.com / nunomvmf@hotmail.com
+---
 
 I really hope you liked my Rest API, thanks! :thumbsup:

@@ -6,9 +6,6 @@ import { ShipmentsModule } from "./shipments/shipments.module";
 import { OrdersModule } from "./orders/orders.module";
 import { WarehousesModule } from "./warehouses/warehouses.module";
 import { ProductsModule } from "./products/products.module";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 
 @Module({
   imports: [ShipmentsModule, OrdersModule, WarehousesModule, ProductsModule],

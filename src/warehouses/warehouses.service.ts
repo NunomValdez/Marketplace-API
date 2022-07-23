@@ -8,7 +8,6 @@ export class WarehousesService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateWarehouseDto) {
-    // console.log(this.prisma.warehouse);
     return this.prisma.warehouse.create({
       data: {
         location: data.location,
@@ -31,13 +30,13 @@ export class WarehousesService {
     });
     if (!warehouseExists) {
       throw new Error(
-        "Warehouse do not work with us, and for that does not exists no our database"
+        "This warehouse does not work with us, and for that it does not exists in our database!"
       );
     }
     return this.prisma.warehouse.update({ data, where: { id } });
   }
 
   async remove(id: string) {
-    return this.prisma.warehouse.delete({ where: { id } });
+    return await this.prisma.warehouse.delete({ where: { id } });
   }
 }
