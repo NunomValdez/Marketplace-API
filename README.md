@@ -11,6 +11,7 @@ As desired, here you can make a CRUD - **C**reate, **R**ead, **U**pdate and/or *
 **Note:** You need to have NodeJS installed in your system.
 
 - Download the Git repository to your machine;
+- You have to create a .env file, and put this variable: DATABASE_URL="file:./dev.db", or in the schema.prisma you can write '"file:./dev.db"' in the url parameter.
 - Run the command "npm install" in the terminal, in the project folder;
 
 ---
@@ -109,7 +110,5 @@ In this App, you have the following Endpoints:
 - **Note:** If you delete a shipment, the order shipment_id will be null, and it makes it impossible to delete the order, due to foreign key constraints.
 
 ---
-
-**Note:** You have to create a .env file, and put this variable: DATABASE_URL="file:./dev.db".
 
 I really hope you liked my Rest API, thanks! :thumbsup:
