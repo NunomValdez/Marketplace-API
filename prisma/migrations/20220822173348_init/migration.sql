@@ -4,8 +4,6 @@ CREATE TABLE "Products" (
     "name" TEXT NOT NULL,
     "warehouse_id" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "order_id" TEXT,
-    CONSTRAINT "Products_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "Orders" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Products_warehouse_id_fkey" FOREIGN KEY ("warehouse_id") REFERENCES "Warehouses" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -42,6 +40,14 @@ CREATE TABLE "Warehouses" (
     "location" TEXT
 );
 
+-- CreateTable
+CREATE TABLE "_OrderToProduct" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_OrderToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "Orders" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_OrderToProduct_B_fkey" FOREIGN KEY ("B") REFERENCES "Products" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Products_id_key" ON "Products"("id");
 
@@ -56,3 +62,9 @@ CREATE UNIQUE INDEX "Shipments_id_key" ON "Shipments"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Warehouses_id_key" ON "Warehouses"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_OrderToProduct_AB_unique" ON "_OrderToProduct"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_OrderToProduct_B_index" ON "_OrderToProduct"("B");
