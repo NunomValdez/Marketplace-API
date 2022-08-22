@@ -8,7 +8,7 @@ export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateOrderDto) {
-    //array of products id's from data
+    //array of products id's from data - map returns a new array, of products to order in this case
     const arrayOfProductId = data.products.map((product) => {
       return product.id;
     });
@@ -35,6 +35,7 @@ export class OrdersService {
         };
       });
 
+      // append the products associations to the create method
       return await this.prisma.order.create({
         data: {
           products: {
@@ -43,7 +44,7 @@ export class OrdersService {
         },
       });
     } else {
-      throw new Error("The product does not exist ");
+      throw new Error("The product does not exist"); // the order could not be done cause there's no produts in stock, for example
     }
   }
 

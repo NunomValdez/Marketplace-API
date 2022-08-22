@@ -6,6 +6,7 @@ export class CreateShipmentDto {
 
   @ApiProperty()
   from_address: string;
+  //this as to be the warehouse id, cause the product is shipped always from a warehouse
 
   @ApiProperty()
   to_address: string;

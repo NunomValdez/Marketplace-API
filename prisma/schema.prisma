@@ -14,10 +14,13 @@ model Product {
   warehouse_id String
   quantity     Int
   warehouse    warehouse @relation("productsOfWarehouse", fields: [warehouse_id], references: [id])
-  order        Order?    @relation(fields: [order_id], references: [id])
-  order_id     String?
+  order        Order[]
+  //  @relation(fields: [order_id], references: [id])
+  // order_id     String?
 
+  // orders      Order[]
   orders ProductsOrders[]
+
   @@map("Products")
 }
 
@@ -28,6 +31,8 @@ model Order {
   product     Product[]
 
   products ProductsOrders[]
+  // products    Product[]
+
   @@map("Orders")
 }
 
@@ -35,7 +40,7 @@ model ProductsOrders {
   order_id         String
   product_id       String
   product_quantity Int
-  products         Product @relation(fields: [product_id], references: [id])
+  products         Product @relation(fields: [product_id], references: [id]) //products é o parametro da tabela q se refere ao product_id desta tabela, que aponta para o ID da tabela Product
   orders           Order   @relation(fields: [order_id], references: [id])
 
   @@id([order_id, product_id])
@@ -49,6 +54,7 @@ model Shipment {
   delivered    Boolean @default(false) // this way, admin can see if delivered is true or false
 
   order Order[]
+
   @@map("Shipments")
 }
 

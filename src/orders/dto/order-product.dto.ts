@@ -7,3 +7,7 @@ export class OrderProductDto {
   @ApiProperty()
   quantity: number;
 }
+
+// define associacoes entre produtos e orders
+
+// nome meh, devia ser mais ProductsOrdersAssociation

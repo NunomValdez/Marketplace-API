@@ -13,10 +13,11 @@ export class ProductsService {
   async create(data: CreateProductDto) {
     const procuctToCreate = await this.prisma.product.create({
       data: {
-        id: data.id,
+        // id: data.id, // n devia existir, porque nao queremos dar a possibilidade ao user de criar um id, mas sim dar essa responsabilidade ao prisma
         name: data.name,
         warehouse_id: data.warehouse_id,
         quantity: data.quantity,
+        // ou ...CreateProductDto
       },
     });
 
@@ -40,8 +41,8 @@ export class ProductsService {
     }
 
     return await this.prisma.product.update({
-      data,
       where: { id },
+      data,
     });
   }
 
