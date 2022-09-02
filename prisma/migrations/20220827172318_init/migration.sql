@@ -15,14 +15,14 @@ CREATE TABLE "Orders" (
 );
 
 -- CreateTable
-CREATE TABLE "ProductsOrders" (
+CREATE TABLE "OrderToProduct" (
     "order_id" TEXT NOT NULL,
     "product_id" TEXT NOT NULL,
     "product_quantity" INTEGER NOT NULL,
 
     PRIMARY KEY ("order_id", "product_id"),
-    CONSTRAINT "ProductsOrders_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "ProductsOrders_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "Orders" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "OrderToProduct_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "OrderToProduct_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "Orders" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -40,14 +40,6 @@ CREATE TABLE "Warehouses" (
     "location" TEXT
 );
 
--- CreateTable
-CREATE TABLE "_OrderToProduct" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
-    CONSTRAINT "_OrderToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "Orders" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_OrderToProduct_B_fkey" FOREIGN KEY ("B") REFERENCES "Products" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "Products_id_key" ON "Products"("id");
 
@@ -62,9 +54,3 @@ CREATE UNIQUE INDEX "Shipments_id_key" ON "Shipments"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Warehouses_id_key" ON "Warehouses"("id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_OrderToProduct_AB_unique" ON "_OrderToProduct"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_OrderToProduct_B_index" ON "_OrderToProduct"("B");

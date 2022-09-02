@@ -17,6 +17,7 @@ export class OrdersController {
 
   @Post()
   create(@Body() data: CreateOrderDto) {
+    //data neste caso é uma variavel que contém o Body do payload, i.e, o que é enviado pelo cliente para o servidor
     return this.ordersService.create(data);
   }
 
