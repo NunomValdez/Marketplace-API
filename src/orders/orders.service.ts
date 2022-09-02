@@ -39,38 +39,23 @@ export class OrdersService {
         },
       });
 
-      const arrProdutsIdPayload = data.products.find((product) => product.id);
+      //para cada produto pedido existente na DB
+      for (let i = 0; i < productToOrderInDB.length; ++i) {
+        const quantityOfProductsInDb = data.products.find(
+          (prod) => prod.id === productToOrderInDB[i].id
+        ).quantity;
 
-      //quantidade[] de prod vindos no Payload
-      const dataProductPayload = data.products;
+        const rightAmountOfProductsLeftDb =
+          productToOrderInDB[i].quantity - quantityOfProductsInDb;
 
-      for (let i = 0; i <= productToOrderInDB.length; ++i) {
-        // for (let j = 0; j <= dataProductPayload.length; ++j) {
-        const productInDatabase = await this.prisma.product.findMany({
+        await this.prisma.product.update({
           where: {
-            id: { in: dataProductPayload[i].id },
+            id: productToOrderInDB[i].id,
+          },
+          data: {
+            quantity: rightAmountOfProductsLeftDb,
           },
         });
-        // console.log(productInDatabase);
-        if (productToOrderInDB[i].id === dataProductPayload[i].id) {
-          //dataProductPayload é do tipo OrderProductDto
-          console.log({ payload: dataProductPayload });
-
-          console.log({ "produtos q existem na DB:": productToOrderInDB });
-
-          const rightAmountOfProductsLeftDb =
-            productToOrderInDB[i].quantity - dataProductPayload[i].quantity;
-
-          await this.prisma.product.update({
-            where: {
-              id: productToOrderInDB[i].id,
-            },
-            data: {
-              quantity: rightAmountOfProductsLeftDb,
-            },
-          });
-        }
-        // }
       }
 
       return orderToCreate;
