@@ -2,10 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
+import { ProductsService } from "src/products/products.service";
 
 @Injectable()
 export class OrdersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    productsService: ProductsService
+  ) {}
 
   async create(data: CreateOrderDto) {
     //array of products id's from data - map returns a new array, of products to order in this case
@@ -45,7 +49,7 @@ export class OrdersService {
           (prod) => prod.id === productToOrderInDB[i].id
         ).quantity;
 
-        const rightAmountOfProductsLeftDb =
+        const rightAmountOfProductsLeftInDb =
           productToOrderInDB[i].quantity - quantityOfProductsInDb;
 
         await this.prisma.product.update({
@@ -53,7 +57,7 @@ export class OrdersService {
             id: productToOrderInDB[i].id,
           },
           data: {
-            quantity: rightAmountOfProductsLeftDb,
+            quantity: rightAmountOfProductsLeftInDb,
           },
         });
       }
@@ -73,18 +77,31 @@ export class OrdersService {
       where: {
         id,
       },
-      include: { products: true },
+      include: {
+        _count: true,
+        products: true,
+      },
     });
   }
 
-  async update(id: string, data: UpdateOrderDto) {
+  async update(
+    id: string,
+    data: UpdateOrderDto,
+    productsService: ProductsService
+  ) {
     const orderExists = await this.prisma.order.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
     });
-
+    console.log(orderExists);
     if (!orderExists) {
       throw new Error("This order does not exists");
     }
+
+    const productsIdOnPayload = data.products.map((prod) => {
+      return prod.id;
+    });
 
     return await this.prisma.order.update({
       where: {
@@ -92,6 +109,15 @@ export class OrdersService {
       },
       data: {
         shipment_id: data.shipment_id,
+      },
+      include: {
+        products: {
+          where: {
+            product_id: {
+              in: productsIdOnPayload,
+            },
+          },
+        },
       },
     });
   }

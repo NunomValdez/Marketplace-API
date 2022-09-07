@@ -10,6 +10,7 @@ import {
 import { OrdersService } from "./orders.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
+import { ProductsService } from "src/products/products.service";
 
 @Controller("orders")
 export class OrdersController {
@@ -32,8 +33,12 @@ export class OrdersController {
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() data: UpdateOrderDto) {
-    return this.ordersService.update(id, data);
+  update(
+    @Param("id") id: string,
+    @Body() data: UpdateOrderDto,
+    productsService: ProductsService
+  ) {
+    return this.ordersService.update(id, data, productsService);
   }
 
   @Delete(":id")
